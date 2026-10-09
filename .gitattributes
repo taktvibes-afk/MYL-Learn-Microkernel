@@ -1,0 +1,7 @@
+# Consistent text files across Windows and GitHub
+* text=auto
+*.cs text eol=crlf
+*.csproj text eol=crlf
+*.sln text eol=crlf
+*.cmd text eol=crlf
+*.md text eol=lf

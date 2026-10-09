@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F34B8BF3-2EFC-48EC-A44A-85107530479F}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>MYL.LearnMicrokernel</RootNamespace>
+    <AssemblyName>MYL.LearnMicrokernel</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="StartupScreen.cs" />
+    <Compile Include="KernelHost.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MYL.LearnContract\MYL.LearnContract.csproj">
+      <Project>{2F0B68F8-1F39-4E6C-BA22-1F1481A8D0A1}</Project>
+      <Name>MYL.LearnContract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MYL.LearnTestModule\MYL.LearnTestModule.csproj">
+      <Project>{7195989F-EEBF-4F05-966E-5F1524EC190C}</Project>
+      <Name>MYL.LearnTestModule</Name>
+      <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- Build-Reihenfolge per ProjectReference; die DLL wird dann nach Modules kopiert. -->
+  <Target Name="CopyLearnModule" AfterTargets="Build">
+    <MakeDir Directories="$(TargetDir)Modules" />
+    <Copy SourceFiles="$(MSBuildProjectDirectory)\..\MYL.LearnTestModule\bin\$(Configuration)\MYL.LearnTestModule.dll"
+          DestinationFolder="$(TargetDir)Modules" SkipUnchangedFiles="true" />
+  </Target>
+</Project>
